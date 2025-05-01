@@ -43,7 +43,7 @@ models:
           +materialized: view
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           +database: "WORKSHOP_OBSERVABILIDAD"
-          +schema: " SILVER"
+          +schema: "SILVER"
           # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
           # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
           query_tag: dbt_staging
@@ -61,6 +61,6 @@ models:
           +materialized: table
           # This defaults every model in the marts/core directory to be materialized as a table in Snowflake
           +database: "WORKSHOP_OBSERVABILIDAD"
-          +schema: " GOLD"
+          +schema: "GOLD"
           query_tag: dbt_marts   
           # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History       
