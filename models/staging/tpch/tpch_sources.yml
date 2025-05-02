@@ -11,7 +11,7 @@ version: 2
 sources:
   - name: tpch
     description: We use the [TPCH dataset](https://docs.snowflake.com/en/user-guide/sample-data-tpch.html) to create a sample project to emulate what a production project might look like!
-    database: workshop_observability
+    database: workshop_observabilidad
     schema: bronze
     freshness: 
     # This section applies freshness tests on these column. Full docs: https://docs.getdbt.com/docs/dbt-cloud/using-dbt-cloud/cloud-snapshotting-source-freshness
