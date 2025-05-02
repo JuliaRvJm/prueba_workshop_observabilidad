@@ -8,7 +8,7 @@ renamed as (
 
     select
     
-        {{ dbt_utils.surrogate_key(
+        {{ dbt_utils.generate_surrogate_key(
             ['ps_partkey', 
             'ps_suppkey']) }} 
                 as part_supplier_key,
@@ -16,7 +16,8 @@ renamed as (
         ps_suppkey as supplier_key,
         ps_availqty as available_quantity,
         ps_supplycost as cost,
-        ps_comment as comment
+        ps_comment as comment,
+        ingest_timestamp
 
     from source
 

@@ -8,7 +8,7 @@ renamed as (
 
     select
     
-        {{ dbt_utils.surrogate_key(
+        {{ dbt_utils.generate_surrogate_key(
             ['l_orderkey', 
             'l_linenumber']) }}
                 as order_item_key,
@@ -27,7 +27,8 @@ renamed as (
         l_receiptdate as receipt_date,
         l_shipinstruct as ship_instructions,
         l_shipmode as ship_mode,
-        l_comment as comment
+        l_comment as comment,
+        ingest_timestamp
 
     from source
 
