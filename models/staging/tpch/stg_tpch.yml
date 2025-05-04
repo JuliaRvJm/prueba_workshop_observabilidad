@@ -52,6 +52,10 @@ models:
         description: '{{ doc("extended_price") }}'
       - name: discount_percentage
         description: '{{ doc("discount_percentage") }}'
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.00
+              max_value: 0.10
       - name: tax_rate
         description: tax rate of the order item
       - name: return_flag
@@ -60,10 +64,18 @@ models:
         description: status code of the order item
       - name: ship_date
         description: '{{ doc("ship_date") }}'
+        tests:
+          - dbt_expectations.expect_column_pair_values_a_to_be_greater_than_b:
+              column_A: ship_date
+              column_B: commit_date
       - name: commit_date
         description: '{{ doc("commit_date") }}'
       - name: receipt_date
         description: '{{ doc("receipt_date") }}'
+        tests:
+          - dbt_expectations.expect_column_pair_values_a_to_be_greater_than_b:
+              column_A: receipt_date
+              column_B: ship_date
       - name: ship_instructions
         description: additional instructions on the shipment
       - name: ship_mode
