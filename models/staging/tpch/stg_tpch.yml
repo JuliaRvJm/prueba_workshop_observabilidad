@@ -27,6 +27,9 @@ models:
         description: total account balance from the customer
       - name: market_segment
         description: market segment of the customer
+        tests:
+          -accepted_values:
+              values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'MACHINERY', 'HOUSEHOLD']
       - name: comment
         description: '{{ doc("comment") }}'
 
@@ -114,7 +117,7 @@ models:
         description: status of the order
         tests:
           - accepted_values:
-              values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'MACHINERY', 'HOUSEHOLD']
+              values: ['O', 'F', 'P']
       - name: total_price
         description: raw price
       - name: order_date
