@@ -30,7 +30,6 @@ sources:
               # this applies the tests unique and not_null to the o_orderkey colum 
               - unique
               - not_null
-                  
           - name: o_custkey
             description: Foreign Key to C_CUSTKEY
             tests:
