@@ -65,7 +65,7 @@ models:
       - name: ship_date
         description: '{{ doc("ship_date") }}'
         tests:
-          - dbt_expectations.expect_column_pair_values_a_to_be_greater_than_b:
+          - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
               column_A: ship_date
               column_B: commit_date
       - name: commit_date
@@ -73,7 +73,7 @@ models:
       - name: receipt_date
         description: '{{ doc("receipt_date") }}'
         tests:
-          - dbt_expectations.expect_column_pair_values_a_to_be_greater_than_b:
+          - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
               column_A: receipt_date
               column_B: ship_date
       - name: ship_instructions
@@ -125,7 +125,7 @@ models:
         description: numeric representation of the shipping priority, zero being the default
         tests:
           - accepted_values:
-              values: ['0-DEFAULT','1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW']
+              values: ['1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW']
       - name: comment
         description: '{{ doc("comment") }}'
 
