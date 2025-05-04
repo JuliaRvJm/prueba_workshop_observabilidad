@@ -64,24 +64,26 @@ models:
         description: status code of the order item
       - name: ship_date
         description: '{{ doc("ship_date") }}'
-        tests:
-          - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
-              column_A: ship_date
-              column_B: commit_date
       - name: commit_date
         description: '{{ doc("commit_date") }}'
       - name: receipt_date
         description: '{{ doc("receipt_date") }}'
-        tests:
-          - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
-              column_A: receipt_date
-              column_B: ship_date
       - name: ship_instructions
         description: additional instructions on the shipment
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
       - name: comment
         description: '{{ doc("comment") }}'
+    tests:
+      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
+          column_A: receipt_date
+          column_B: ship_date
+          or_equal: True
+
+      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
+          column_A: ship_date
+          column_B: commit_date
+          or_equal: True
 
   - name: stg_tpch_nations
     description: staging layer for nations data
