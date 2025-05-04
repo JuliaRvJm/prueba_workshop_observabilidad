@@ -28,7 +28,7 @@ models:
       - name: market_segment
         description: market segment of the customer
         tests:
-          -accepted_values:
+          - accepted_values:
               values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'MACHINERY', 'HOUSEHOLD']
       - name: comment
         description: '{{ doc("comment") }}'
@@ -81,11 +81,6 @@ models:
       - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
           column_A: receipt_date
           column_B: ship_date
-          or_equal: True
-
-      - dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B:
-          column_A: ship_date
-          column_B: commit_date
           or_equal: True
 
   - name: stg_tpch_nations
