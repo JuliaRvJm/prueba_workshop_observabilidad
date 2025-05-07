@@ -50,6 +50,28 @@ sources:
             description: numeric representation of the shipping priority, zero being the default
           - name: o_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
+
+        tests:
+          - elementary.volume_anomalies:
+              timestamp_column: "ingest_timestamp"
+              time_bucket:
+                period: hour  # Establecemos la segmentación horaria
+                count: 1  # Un solo bucket por hora
+              detection_period:
+                period: hour  # Monitoreo en ventanas de 1 hora
+                count: 1  # Detección de anomalías en las últimas 2 horas
+              training_period:
+                period: day  # Entrenamiento cada día
+                count: 1  # Aprender el último día
+              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
+              ignore_small_changes:
+                spike_failure_percent_threshold: 10  # No reportar anomalías si el cambio es menor al 10%
+                drop_failure_percent_threshold: 10  # No reportar caídas menores al 10%
+              tags: ["elementary"]
+              config:
+                severity: warn
           
       - name: customer
         description: main customer table
@@ -75,6 +97,8 @@ sources:
             description: market segment of the customer
           - name: c_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: lineitem
         description: main lineitem table
@@ -123,6 +147,25 @@ sources:
             description: method of shipping
           - name: l_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
+            
+        tests:      
+          - elementary.freshness_anomalies: 
+              timestamp_column: "ingest_timestamp"
+              time_bucket:
+                period: hour
+                count: 1
+              training_period:
+                period: hour
+                count: 1
+              detection_period:
+                period: hour
+                count: 1
+              anomaly_direction: spike #to alert only on delays
+              tags: ["elementary"]
+              config:
+                severity: warn
 
       - name: nation
         description: nation mapping
@@ -144,6 +187,8 @@ sources:
                   field: r_regionkey
           - name: n_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: part
         description: main part table
@@ -171,6 +216,8 @@ sources:
             description: raw retail price
           - name: p_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: partsupp
         description: main part supplier table
@@ -193,6 +240,8 @@ sources:
             description: raw cost 
           - name: ps_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: region
         description: region mapping
@@ -208,6 +257,8 @@ sources:
             description: region name
           - name: r_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: supplier
         description: main supplier table
@@ -235,3 +286,5 @@ sources:
             description: raw account balance
           - name: s_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
