@@ -60,7 +60,7 @@ sources:
                 period: hour  # Establecemos la segmentación horaria
                 count: 1  # Un solo bucket por hora
               detection_period:
-                period: hour  # Monitoreo en ventanas de 2 horas
+                period: day  # Monitoreo en ventanas de 2 horas
                 count: 1  # Detección de anomalías en las últimas 2 horas
               training_period:
                 period: day  # Entrenamiento cada semana
@@ -102,9 +102,9 @@ sources:
 
         tests:
           - elementary.schema_changes:
-            tags: ["elementary"]
-            config:
-              severity: warn
+              tags: ["elementary"]
+              config:
+                severity: warn
 
 
       - name: lineitem
@@ -164,11 +164,11 @@ sources:
                 period: hour
                 count: 1
               training_period:
-                period: hour
-                count: 1
-              detection_period:
                 period: day
                 count: 7
+              detection_period:
+                period: day
+                count: 1
               anomaly_direction: spike #to alert only on delays
               tags: ["elementary"]
               config:
