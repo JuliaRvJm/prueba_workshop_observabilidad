@@ -106,20 +106,6 @@ sources:
             config:
               severity: warn
 
-          - elementary.column_anomalies:
-              column_anomalies:
-                - null_percent
-              time_bucket:
-                period: hour
-                count: 1
-              training_period:
-                period: hour
-                count: 1
-              detection_period:
-                period: day
-                count: 7
-              tags: ['elementary']
-
 
       - name: lineitem
         description: main lineitem table
