@@ -60,15 +60,15 @@ sources:
                 period: hour  # Establecemos la segmentación horaria
                 count: 1  # Un solo bucket por hora
               detection_period:
-                period: hour  # Monitoreo en ventanas de 1 hora
+                period: hour  # Monitoreo en ventanas de 2 horas
                 count: 1  # Detección de anomalías en las últimas 2 horas
               training_period:
-                period: day  # Entrenamiento cada día
-                count: 1  # Aprender el último día
-              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
-              ignore_small_changes:
-                spike_failure_percent_threshold: 10  # No reportar anomalías si el cambio es menor al 10%
-                drop_failure_percent_threshold: 10  # No reportar caídas menores al 10%
+                period: day  # Entrenamiento cada semana
+                count: 7  # Aprender los últimos 7 días
+#              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
+#              ignore_small_changes:
+#                spike_failure_percent_threshold: 10  # No reportar anomalías si el cambio es menor al 10%
+#                drop_failure_percent_threshold: 10  # No reportar caídas menores al 10%
               tags: ["elementary"]
               config:
                 severity: warn
@@ -99,6 +99,27 @@ sources:
             description: '{{ doc("comment") }}'
           - name: ingest_timestamp
             description: "the timestamp when the data was ingested into the system"
+
+        tests:
+          - elementary.schema_changes:
+            tags: ["elementary"]
+            config:
+              severity: warn
+
+          - elementary.column_anomalies:
+              column_anomalies:
+                - null_percent
+              time_bucket:
+                period: hour
+                count: 1
+              training_period:
+                period: hour
+                count: 1
+              detection_period:
+                period: day
+                count: 7
+              tags: ['elementary']
+
 
       - name: lineitem
         description: main lineitem table
@@ -149,7 +170,7 @@ sources:
             description: '{{ doc("comment") }}'
           - name: ingest_timestamp
             description: "the timestamp when the data was ingested into the system"
-            
+
         tests:      
           - elementary.freshness_anomalies: 
               timestamp_column: "ingest_timestamp"
@@ -160,12 +181,12 @@ sources:
                 period: hour
                 count: 1
               detection_period:
-                period: hour
-                count: 1
+                period: day
+                count: 7
               anomaly_direction: spike #to alert only on delays
               tags: ["elementary"]
               config:
-                severity: warn
+                  severity: warn
 
       - name: nation
         description: nation mapping
