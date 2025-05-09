@@ -30,6 +30,7 @@ models:
               detection_period:
                 period: day
                 count: 7
+              anomaly_sensitivity: 1
               tags: ['elementary']
       - name: address
         description: address of the customer
