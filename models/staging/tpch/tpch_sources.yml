@@ -50,6 +50,28 @@ sources:
             description: numeric representation of the shipping priority, zero being the default
           - name: o_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
+
+        tests:
+          - elementary.volume_anomalies:
+              timestamp_column: "ingest_timestamp"
+              time_bucket:
+                period: hour  # Establecemos la segmentación horaria
+                count: 1  # Un solo bucket por hora
+              detection_period:
+                period: day  # Monitoreo en ventanas de 2 horas
+                count: 1  # Detección de anomalías en las últimas 2 horas
+              training_period:
+                period: day  # Entrenamiento cada semana
+                count: 7  # Aprender los últimos 7 días
+#              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
+#              ignore_small_changes:
+#                spike_failure_percent_threshold: 10  # No reportar anomalías si el cambio es menor al 10%
+#                drop_failure_percent_threshold: 10  # No reportar caídas menores al 10%
+              tags: ["elementary"]
+              config:
+                severity: warn
           
       - name: customer
         description: main customer table
@@ -58,7 +80,7 @@ sources:
             description: Primary Key of the Customer table
             tests:
               - unique:
-                  severity: warn
+                  severity: error
               - not_null:
                   severity: warn
           - name: c_name
@@ -75,6 +97,15 @@ sources:
             description: market segment of the customer
           - name: c_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
+
+        tests:
+          - elementary.schema_changes:
+              tags: ["elementary"]
+              config:
+                severity: warn
+
 
       - name: lineitem
         description: main lineitem table
@@ -123,6 +154,25 @@ sources:
             description: method of shipping
           - name: l_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
+
+        tests:      
+          - elementary.freshness_anomalies: 
+              timestamp_column: "ingest_timestamp"
+              time_bucket:
+                period: hour
+                count: 1
+              training_period:
+                period: day
+                count: 7
+              detection_period:
+                period: day
+                count: 1
+              anomaly_direction: spike #to alert only on delays
+              tags: ["elementary"]
+              config:
+                  severity: warn
 
       - name: nation
         description: nation mapping
@@ -131,7 +181,7 @@ sources:
             description: Primary Key of the Nation table
             tests:
               - unique:
-                  severity: warn
+                  severity: error
               - not_null:
                   severity: warn
           - name: n_name
@@ -144,6 +194,8 @@ sources:
                   field: r_regionkey
           - name: n_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: part
         description: main part table
@@ -171,6 +223,8 @@ sources:
             description: raw retail price
           - name: p_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: partsupp
         description: main part supplier table
@@ -193,6 +247,8 @@ sources:
             description: raw cost 
           - name: ps_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: region
         description: region mapping
@@ -208,6 +264,8 @@ sources:
             description: region name
           - name: r_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
 
       - name: supplier
         description: main supplier table
@@ -235,3 +293,5 @@ sources:
             description: raw account balance
           - name: s_comment
             description: '{{ doc("comment") }}'
+          - name: ingest_timestamp
+            description: "the timestamp when the data was ingested into the system"
