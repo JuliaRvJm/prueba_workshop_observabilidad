@@ -80,7 +80,7 @@ sources:
             description: Primary Key of the Customer table
             tests:
               - unique:
-                  severity: warn
+                  severity: error
               - not_null:
                   severity: warn
           - name: c_name
@@ -181,7 +181,7 @@ sources:
             description: Primary Key of the Nation table
             tests:
               - unique:
-                  severity: warn
+                  severity: error
               - not_null:
                   severity: warn
           - name: n_name
