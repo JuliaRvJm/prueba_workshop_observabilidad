@@ -65,10 +65,7 @@ sources:
               training_period:
                 period: day  # Entrenamiento cada semana
                 count: 7  # Aprender los últimos 7 días
-#              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
-#              ignore_small_changes:
-#                spike_failure_percent_threshold: 10  # No reportar anomalías si el cambio es menor al 10%
-#                drop_failure_percent_threshold: 10  # No reportar caídas menores al 10%
+              fail_on_zero: true  # Falla si el volumen es 0 (sin datos)
               tags: ["elementary"]
               config:
                 severity: warn
